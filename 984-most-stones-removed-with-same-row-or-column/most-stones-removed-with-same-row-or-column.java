@@ -3,8 +3,8 @@ class DisjointSet {
     int[] rank;
 
     DisjointSet(int n) {
-        parent = new int[n*n];
-        rank = new int[n*n];
+        parent = new int[n];
+        rank = new int[n];
 
         for(int i = 0; i < parent.length; i++) {
             parent[i] = i;
@@ -56,10 +56,10 @@ class Solution {
         Set<Integer> set = new HashSet<>();
         for(int i = 0; i < n; i++) {
             int num = ds.findUltimateParent(i);
-            System.out.println(num);
+            // System.out.println(num);
             set.add(num);
         }
-        System.out.println(set.size());
+        // System.out.println(set.size());
         int ans = n - set.size();
         return ans;
     }
