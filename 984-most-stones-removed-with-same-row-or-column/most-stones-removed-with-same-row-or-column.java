@@ -39,28 +39,17 @@ class Solution {
     public int removeStones(int[][] stones) {
         int n = stones.length;
         System.out.println(n);
-        DisjointSet ds = new DisjointSet(n);
+        DisjointSet ds = new DisjointSet(20005);
     
-        for(int i = 0; i < n - 1; i++) {
-            for(int j = i + 1; j < n; j++) {
-                int[] stone1 = stones[i];
-                int[] stone2 = stones[j];
-                
-                // We can join stones only if at-least one of their co-ordinates are equal. 
-                if(stone1[0] == stone2[0] || stone1[1] == stone2[1]) {
-                    ds.union(i, j);
-                }
-            }
+        for(int i = 0; i < n; i++) {
+            ds.union(stones[i][0], stones[i][1] + 10001);
         }
 
         Set<Integer> set = new HashSet<>();
         for(int i = 0; i < n; i++) {
-            int num = ds.findUltimateParent(i);
-            // System.out.println(num);
-            set.add(num);
+            set.add(ds.findUltimateParent(stones[i][0]));
         }
-        // System.out.println(set.size());
-        int ans = n - set.size();
-        return ans;
+        
+        return n-set.size();
     }
 }
