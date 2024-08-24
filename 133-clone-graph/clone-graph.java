@@ -32,16 +32,15 @@ class Solution {
     public void deepCopy(Node oldNode, Map<Node, Node> map) {
         if(oldNode == null) return;
         
-        List<Node> newNeighList = new ArrayList<>();
+        // List<Node> newNeighList = new ArrayList<>();
         for(Node oldNeigh : oldNode.neighbors) {
-            if(map.containsKey(oldNeigh)) newNeighList.add(map.get(oldNeigh));
+            if(map.containsKey(oldNeigh)) map.get(oldNode).neighbors.add(map.get(oldNeigh));
             else {
                 Node newNeigh = new Node(oldNeigh.val);
                 map.put(oldNeigh, newNeigh);
-                newNeighList.add(newNeigh);
+                map.get(oldNode).neighbors.add(newNeigh);
                 deepCopy(oldNeigh, map);
             }
         }
-        map.get(oldNode).neighbors = newNeighList;
     }
 }
