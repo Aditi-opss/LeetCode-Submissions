@@ -20,27 +20,25 @@ class Node {
 
 class Solution {
     public Node cloneGraph(Node node) {
-        if(node == null) return null;
-        Map<Node, Node> map = new HashMap<>();
-        Node newNode  = new Node(node.val);
-        map.put(node, newNode);
-        deepCopy(node, map);
+        HashMap<Node, Node> map = new HashMap<>();
 
-        return newNode;
+        return deepCopy(node, map);
     }
 
-    public void deepCopy(Node oldNode, Map<Node, Node> map) {
-        if(oldNode == null) return;
-        
-        // List<Node> newNeighList = new ArrayList<>();
-        for(Node oldNeigh : oldNode.neighbors) {
-            if(map.containsKey(oldNeigh)) map.get(oldNode).neighbors.add(map.get(oldNeigh));
-            else {
-                Node newNeigh = new Node(oldNeigh.val);
-                map.put(oldNeigh, newNeigh);
-                map.get(oldNode).neighbors.add(newNeigh);
-                deepCopy(oldNeigh, map);
+    public static Node deepCopy(Node oldNode, HashMap<Node, Node> map) {
+        if(oldNode == null) return oldNode;
+        if(map.containsKey(oldNode)) {
+            return map.get(oldNode);
+        }
+
+        Node newNode = new Node(oldNode.val);
+        map.put(oldNode, newNode);
+
+        if(oldNode.neighbors != null) {
+            for(Node n : oldNode.neighbors) {
+                newNode.neighbors.add(deepCopy(n, map));
             }
         }
+        return newNode;
     }
 }
