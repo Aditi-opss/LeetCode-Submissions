@@ -1,4 +1,7 @@
 class Solution {
+    int[] rowIndex = new int [] {1, -1, 0, 0};
+    int[] colIndex = new int[] {0, 0, 1, -1};
+
     public void solve(char[][] board) {
         int m = board.length, n = board[0].length;
 
@@ -32,10 +35,18 @@ class Solution {
                 int c = curr[1]; 
                 board[r][c] = '*';
 
-                if(r - 1 >= 0 && board[r - 1][c] == 'O') bfs.add(new int[] {r - 1, c});
-                if(r + 1 < m && board[r + 1][c] == 'O') bfs.add(new int[] {r + 1, c});
-                if(c - 1 >= 0 && board[r][c - 1] == 'O') bfs.add(new int[] {r, c - 1});
-                if(c + 1 < n && board[r][c + 1] == 'O') bfs.add(new int[] {r, c + 1});
+                for(int dir = 0; dir < 4; dir++) {
+                    int nextRow = r + rowIndex[dir];
+                    int nextCol = c + colIndex[dir];
+                    if(isValid(nextRow, nextCol, m , n , board)) {
+                        bfs.add(new int[] {nextRow, nextCol});
+                    }
+                }
+
+                // if(r - 1 >= 0 && board[r - 1][c] == 'O') bfs.add(new int[] {r - 1, c});
+                // if(r + 1 < m && board[r + 1][c] == 'O') bfs.add(new int[] {r + 1, c});
+                // if(c - 1 >= 0 && board[r][c - 1] == 'O') bfs.add(new int[] {r, c - 1});
+                // if(c + 1 < n && board[r][c + 1] == 'O') bfs.add(new int[] {r, c + 1});
             }
         }
 
@@ -45,5 +56,8 @@ class Solution {
                 else if(board[i][j] == '*') board[i][j] ='O';
             }
         }
+    }
+    public boolean isValid(int r, int c, int m, int n, char[][] grid) {
+        return r >= 0 && c >= 0 && r < m && c < n && grid[r][c] == 'O';
     }
 }
