@@ -1,22 +1,16 @@
 class Solution {
     public int lengthOfLIS(int[] nums) {
-        Integer[][] dp = new Integer[nums.length + 1][nums.length + 1];
-        return lengthOfLISHelper(nums, 0, -1, dp);
-    }
-
-    public int lengthOfLISHelper(int[] nums, int index, int prev, Integer[][] dp) {
-        if(index >= nums.length) return 0;
-
-        if(dp[index][prev + 1] != null) {
-            return dp[index][prev + 1];
+        int[] dp = new int[nums.length];
+        int max = 1;
+        Arrays.fill(dp, 1);
+        for(int i = 0; i < dp.length; i++) {
+            for(int j = 0; j < i; j++) {
+                if(nums[j] < nums[i]){
+                    dp[i] = Math.max(dp[i], 1 + dp[j]);
+                    max = Math.max(max, dp[i]);
+                }
+            }
         }
-
-        int x = 0;
-        if(prev == -1 || nums[index] > nums[prev]){
-            x = 1 + lengthOfLISHelper(nums, index + 1, index, dp);
-        }
-        int y = lengthOfLISHelper(nums, index + 1, prev, dp);
-
-        return dp[index][prev + 1] = Math.max(x, y);
+        return max;
     }
 }
